@@ -1,1 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Afrah Mohammed | Portfolio </title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+ 
+  <header class="site-header">
+    <a href="#" class="logo">Afrah<span>Portfolio</span></a>
+    <nav class="nav">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+      <button id="themeToggle" aria-label="Toggle theme"></button>
+    </nav>
+  </header>
+
+  
+  <section class="banner">
+    <p id="greetingText" class="fade-in">Hi there! </p>
+    <button id="editName" class="btn small">Set your name</button>
+  </section>
+
+ 
+  <section id="about" class="container section">
+    <h2>About Me</h2>
+    <p>
+      I'm <strong>Afrah Mohammed</strong>, a Computer Science student who enjoys building useful, simple web experiences.
+      In this version of my portfolio, I added dynamic content, data handling, animations, and better feedback.
+    </p>
+
+    
+    <div class="quote card">
+      <h3>Today’s Quote</h3>
+      <div id="quoteArea">
+        <div class="spinner" id="quoteSpinner" aria-hidden="true"></div>
+        <p id="quoteText" class="muted">Loading quote…</p>
+        <p id="quoteError" class="error hidden">Couldn’t load the quote. <button id="retryQuote" class="linklike">Retry</button></p>
+      </div>
+    </div>
+  </section>
+
+ 
+  <section id="projects" class="container section">
+    <h2>Projects</h2>
+
+ 
+    <div class="controls">
+      <div class="filters">
+        <button class="chip active" data-filter="all">All</button>
+        <button class="chip" data-filter="Web">Web</button>
+        <button class="chip" data-filter="Data">Data</button>
+        <button class="chip" data-filter="Presentation">Presentation</button>
+      </div>
+
+      <div class="search-sort">
+        <input id="searchInput" type="search" placeholder="Search projects…" aria-label="Search projects">
+        <select id="sortSelect" aria-label="Sort projects">
+          <option value="date-desc">Sort: Newest</option>
+          <option value="date-asc">Sort: Oldest</option>
+          <option value="title-asc">Sort: Title A–Z</option>
+          <option value="title-desc">Sort: Title Z–A</option>
+        </select>
+      </div>
+    </div>
+
+   
+    <div id="projectsList" class="grid projects-grid"></div>
+
+   
+    <p id="emptyState" class="muted hidden">No projects found. Try a different search or filter.</p>
+  </section>
+
+  <!-- Contact (inline validation + animated feedback) -->
+  <section id="contact" class="container section">
+    <h2>Contact Me</h2>
+    <form id="contactForm" novalidate>
+      <label>
+        Name
+        <input type="text" name="name" placeholder="Your name" required>
+        <span class="field-error" data-for="name"></span>
+      </label>
+
+      <label>
+        Email
+        <input type="email" name="email" placeholder="you@example.com" required>
+        <span class="field-error" data-for="email"></span>
+      </label>
+
+      <label>
+        Message
+        <textarea name="message" rows="5" placeholder="Write your message…" required minlength="10"></textarea>
+        <span class="field-error" data-for="message"></span>
+      </label>
+
+      <button type="submit" class="btn">Send</button>
+      <p id="formStatus" class="status" aria-live="polite"></p>
+    </form>
+  </section>
+
+ 
+
+  <button id="backToTop" title="Go to top" aria-label="Back to top">⬆️</button>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
 

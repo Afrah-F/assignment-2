@@ -7,24 +7,25 @@
   <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
- 
+  <!-- Header -->
   <header class="site-header">
     <a href="#" class="logo">Afrah<span>Portfolio</span></a>
     <nav class="nav">
       <a href="#about">About</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
-      <button id="themeToggle" aria-label="Toggle theme"></button>
+      
+      <button id="themeToggle" aria-label="Toggle theme">🌙</button>
     </nav>
   </header>
 
-  
+  <!-- Greeting -->
   <section class="banner">
     <p id="greetingText" class="fade-in">Hi there! </p>
     <button id="editName" class="btn small">Set your name</button>
   </section>
 
- 
+  <!-- About -->
   <section id="about" class="container section">
     <h2>About Me</h2>
     <p>
@@ -32,22 +33,24 @@
       In this version of my portfolio, I added dynamic content, data handling, animations, and better feedback.
     </p>
 
-    
+    <!-- Quote API demo -->
     <div class="quote card">
       <h3>Today’s Quote</h3>
       <div id="quoteArea">
         <div class="spinner" id="quoteSpinner" aria-hidden="true"></div>
         <p id="quoteText" class="muted">Loading quote…</p>
-        <p id="quoteError" class="error hidden">Couldn’t load the quote. <button id="retryQuote" class="linklike">Retry</button></p>
+        <p id="quoteError" class="error hidden">Couldn’t load the quote.
+          <button id="retryQuote" class="linklike">Retry</button>
+        </p>
       </div>
     </div>
   </section>
 
- 
+  <!-- Projects -->
   <section id="projects" class="container section">
     <h2>Projects</h2>
 
- 
+    <!-- Controls -->
     <div class="controls">
       <div class="filters">
         <button class="chip active" data-filter="all">All</button>
@@ -67,14 +70,58 @@
       </div>
     </div>
 
-   
+    <!-- JS will render cards here -->
     <div id="projectsList" class="grid projects-grid"></div>
 
-   
+    <!-- Fallback (shows ONLY if JS is disabled) -->
+    <noscript>
+      <div class="grid projects-grid">
+        <article class="project-card">
+          <img src="assets/club.png" alt="CLUBZONE Platform">
+          <div class="project-body">
+            <h3>CLUBZONE Platform</h3>
+            <div class="project-meta">Web • 2025-01-10</div>
+            <p>A web platform to manage and join student clubs.</p>
+            <details>
+              <summary>Details</summary>
+              <p>Built as part of SWE206. I focused on UI design and improving UX flows.</p>
+            </details>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <img src="assets/online.png" alt="Online Gaming Data Analysis">
+          <div class="project-body">
+            <h3>Online Gaming Data Analysis</h3>
+            <div class="project-meta">Data • 2024-04-01</div>
+            <p>Collected and analyzed player data with visual insights.</p>
+            <details>
+              <summary>Details</summary>
+              <p>Part of COE292. I practiced data handling, visualization, and teamwork.</p>
+            </details>
+          </div>
+        </article>
+
+        <article class="project-card">
+          <img src="assets/elec.png" alt="Saudi Electricity Investment Presentation">
+          <div class="project-body">
+            <h3>Saudi Electricity Investment Presentation</h3>
+            <div class="project-meta">Presentation • 2024-05-16</div>
+            <p>English 102 presentation on investment benefits.</p>
+            <details>
+              <summary>Details</summary>
+              <p>Improved my research, academic writing, and presentation skills.</p>
+            </details>
+          </div>
+        </article>
+      </div>
+    </noscript>
+
+    <!-- Empty state -->
     <p id="emptyState" class="muted hidden">No projects found. Try a different search or filter.</p>
   </section>
 
-  <!-- Contact (inline validation + animated feedback) -->
+  <!-- Contact -->
   <section id="contact" class="container section">
     <h2>Contact Me</h2>
     <form id="contactForm" novalidate>
@@ -101,11 +148,9 @@
     </form>
   </section>
 
- 
-
+  <!-- Back to Top -->
   <button id="backToTop" title="Go to top" aria-label="Back to top">⬆️</button>
 
   <script src="js/script.js"></script>
 </body>
 </html>
-

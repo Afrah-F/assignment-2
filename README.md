@@ -1,7 +1,7 @@
 Assignment 2
 #  Afrah Mohammed | Personal Portfolio
-the link https://afrah-f.github.io/assignment-2/
-A clean, responsive, and interactive portfolio website built with **HTML**, **CSS**, and **JavaScript**.  
+The link https://afrah-f.github.io/assignment-2/
+- A clean, responsive, and interactive portfolio website built with **HTML**, **CSS**, and **JavaScript**.  
 It highlights my work as a Computer Science student, featuring smooth animations, dynamic content, and a personalized user experience.
 
 ---
@@ -75,19 +75,7 @@ The theme is built around **green and white**, symbolizing freshness, growth, an
 
 ---
 
-## 💡 How to Run
 
-1. Clone or download the repository.
-   ```bash
-   git clone https://github.com/<your-username>/afrah-portfolio.git
-   ```
-2. Open `index.html` directly in your browser — no build step required.
-3. Optionally serve it locally for smoother navigation:
-   ```bash
-   npx serve
-   ```
-
----
 
 
 

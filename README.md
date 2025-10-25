@@ -1,6 +1,6 @@
 Assignment 2
 #  Afrah Mohammed | Personal Portfolio
-
+the link https://afrah-f.github.io/assignment-2/
 A clean, responsive, and interactive portfolio website built with **HTML**, **CSS**, and **JavaScript**.  
 It highlights my work as a Computer Science student, featuring smooth animations, dynamic content, and a personalized user experience.
 

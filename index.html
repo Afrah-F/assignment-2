@@ -14,7 +14,8 @@
       <a href="#about">About</a>
       <a href="#projects">Projects</a>
       <a href="#contact">Contact</a>
-     
+      <!-- اسم الزائر يظهر هنا -->
+      <span id="userChip" class="user-chip" aria-live="polite"></span>
       <button id="themeToggle" aria-label="Toggle theme">🌙</button>
     </nav>
   </header>
@@ -22,7 +23,8 @@
   <!-- Greeting -->
   <section class="banner">
     <p id="greetingText" class="fade-in">Hi there! </p>
-    <button id="editName" class="btn small">Set your name</button>
+    <!-- بدلنا id عشان يطابق السكربت -->
+    <button id="changeName" class="btn small" type="button">Change name</button>
   </section>
 
   <!-- About -->
@@ -32,8 +34,7 @@
       I'm <strong>Afrah Mohammed</strong>, a Computer Science student who enjoys building useful, simple web experiences.
       In this version of my portfolio, I added dynamic content, data handling, animations, and better feedback.
     </p>
-
-   
+  </section>
 
   <!-- Projects -->
   <section id="projects" class="container section">
@@ -136,6 +137,18 @@
       <p id="formStatus" class="status" aria-live="polite"></p>
     </form>
   </section>
+
+  <!-- Name Gate (first visit) -->
+  <div id="nameGate" class="gate" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+    <div class="gate-card">
+      <h3 id="gateTitle">Welcome! 👋</h3>
+      <p class="muted">What’s your name?</p>
+      <form id="nameGateForm">
+        <input id="nameInput" type="text" placeholder="Enter your name" autocomplete="name" required>
+        <button type="submit" class="btn">OK</button>
+      </form>
+    </div>
+  </div>
 
   <!-- Back to Top -->
   <button id="backToTop" title="Go to top" aria-label="Back to top">⬆️</button>

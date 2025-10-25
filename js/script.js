@@ -1,25 +1,53 @@
-/* =========================
-   Dynamic Greeting (LocalStorage)
-   ========================= */
+/* ========================================
+   Name Gate (first visit) + Greeting/Chip
+   ======================================== */
 const greetingEl = document.getElementById('greetingText');
-const editNameBtn = document.getElementById('editName');
+const userChip = document.getElementById('userChip');
+const changeNameBtn = document.getElementById('changeName');
 
-function updateGreeting() {
+const gate = document.getElementById('nameGate');
+const gateForm = document.getElementById('nameGateForm');
+const nameInput = document.getElementById('nameInput');
+
+function updateGreetingAndChip() {
   const hour = new Date().getHours();
   const base = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
-  const savedName = localStorage.getItem('username') || 'there';
-  if (greetingEl) greetingEl.textContent = `${base}, ${savedName}! 👋`;
+  const name = localStorage.getItem('username') || 'there';
+  if (greetingEl) greetingEl.textContent = `${base}, ${name}! 👋`;
+  if (userChip) userChip.textContent = `Hi, ${name}`;
 }
-updateGreeting();
 
-editNameBtn?.addEventListener('click', () => {
+// Show gate if no name yet
+(function initGate(){
+  const saved = localStorage.getItem('username');
+  if (!saved) {
+    gate?.classList.add('show');
+    setTimeout(()=> nameInput?.focus(), 50);
+  } else {
+    updateGreetingAndChip();
+  }
+})();
+
+// Submit name
+gateForm?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const value = (nameInput?.value || '').trim();
+  if (!value) return;
+  localStorage.setItem('username', value);
+  gate?.classList.remove('show');
+  updateGreetingAndChip();
+  nameInput.value = '';
+});
+
+// Change name later
+changeNameBtn?.addEventListener('click', () => {
   const current = localStorage.getItem('username') || '';
-  const input = prompt('What name should I use?', current);
+  const input = prompt('Update your name:', current);
   if (input !== null) {
-    const name = input.trim();
-    if (name) {
-      localStorage.setItem('username', name);
-      updateGreeting();
+    const v = input.trim();
+    if (v) {
+      localStorage.setItem('username', v);
+      updateGreetingAndChip();
     }
   }
 });
@@ -31,46 +59,61 @@ const themeBtn = document.getElementById('themeToggle');
 const savedTheme = localStorage.getItem('theme'); // 'dark' | 'light'
 if (savedTheme === 'dark') {
   document.documentElement.classList.add('dark-mode');
-  if (themeBtn) themeBtn.textContent = '☀️';
+  themeBtn && (themeBtn.textContent = '☀️');
 } else {
-  if (themeBtn) themeBtn.textContent = '🌙';
+  themeBtn && (themeBtn.textContent = '🌙');
 }
 themeBtn?.addEventListener('click', () => {
   document.documentElement.classList.toggle('dark-mode');
   const isDark = document.documentElement.classList.contains('dark-mode');
-  if (themeBtn) themeBtn.textContent = isDark ? '☀️' : '🌙';
+  themeBtn.textContent = isDark ? '☀️' : '🌙';
   localStorage.setItem('theme', isDark ? 'dark' : 'light');
 });
 
 /* =========================
-   Simple Quote API (loading/error/retry)
+   Quote API (with fallback)
    ========================= */
 const quoteText = document.getElementById('quoteText');
 const quoteSpinner = document.getElementById('quoteSpinner');
 const quoteError = document.getElementById('quoteError');
 const retryBtn = document.getElementById('retryQuote');
 
+const QUOTE_SOURCES = [
+  { url: 'https://api.quotable.io/random',  pick: d => `“${d.content}” — ${d.author}` },
+  { url: 'https://dummyjson.com/quotes/random', pick: d => `“${d.quote}” — ${d.author}` },
+  { url: 'https://zenquotes.io/api/random', pick: arr => { const d = Array.isArray(arr) ? arr[0] : arr; return `“${d.q}” — ${d.a}`; } },
+];
+function fetchWithTimeout(resource, options = {}) {
+  const { timeout = 7000 } = options;
+  const controller = new AbortController();
+  const id = setTimeout(() => controller.abort(), timeout);
+  return fetch(resource, { ...options, signal: controller.signal })
+    .finally(() => clearTimeout(id));
+}
 async function loadQuote() {
   if (quoteSpinner) quoteSpinner.style.display = 'inline-block';
   quoteError?.classList.add('hidden');
   if (quoteText) quoteText.textContent = 'Loading quote…';
-  try {
-    const res = await fetch('https://api.quotable.io/random', { cache: 'no-store' });
-    if (!res.ok) throw new Error('Network error');
-    const data = await res.json();
-    if (quoteText) quoteText.textContent = `“${data.content}” — ${data.author}`;
-  } catch {
-    if (quoteText) quoteText.textContent = '';
-    quoteError?.classList.remove('hidden');
-  } finally {
-    if (quoteSpinner) quoteSpinner.style.display = 'none';
+  for (const src of QUOTE_SOURCES) {
+    try {
+      const res = await fetchWithTimeout(src.url, { cache: 'no-store', timeout: 7000 });
+      if (!res.ok) throw new Error('Network');
+      const data = await res.json();
+      const text = src.pick(data);
+      if (quoteText) quoteText.textContent = text;
+      if (quoteSpinner) quoteSpinner.style.display = 'none';
+      return;
+    } catch {}
   }
+  if (quoteSpinner) quoteSpinner.style.display = 'none';
+  if (quoteText) quoteText.textContent = '';
+  quoteError?.classList.remove('hidden');
 }
 retryBtn?.addEventListener('click', loadQuote);
 loadQuote();
 
 /* =========================
-   Projects Data + Rendering (filter/search/sort)
+   Projects (filter/search/sort)
    ========================= */
 const projects = [
   { title:'CLUBZONE Platform', category:'Web', date:'2025-01-10', img:'assets/club.png',
@@ -120,7 +163,7 @@ function render() {
     const card = document.createElement('article');
     card.className = 'project-card fade-in';
     card.innerHTML = `
-      <img src="${p.img}" alt="${p.title}">
+      <img src="${p.img}" alt="${p.title}" loading="lazy">
       <div class="project-body">
         <h3>${p.title}</h3>
         <div class="project-meta">${p.category} • ${new Date(p.date).toLocaleDateString()}</div>
@@ -153,7 +196,7 @@ sortSelect?.addEventListener('change', e=>{
 render();
 
 /* =========================
-   Back-to-Top Button
+   Back-to-Top + Smooth anchors
    ========================= */
 const backToTopBtn = document.getElementById('backToTop');
 window.addEventListener('scroll', () => {
@@ -163,47 +206,6 @@ window.addEventListener('scroll', () => {
 backToTopBtn?.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
-
-/* =========================
-   Contact Form Validation + Feedback
-   ========================= */
-const form = document.getElementById('contactForm');
-const formStatus = document.getElementById('formStatus');
-
-function setError(field, msg){
-  const span = form?.querySelector(`.field-error[data-for="${field}"]`);
-  if (span) span.textContent = msg || '';
-}
-function validateEmail(email){
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-form?.addEventListener('submit', (e)=>{
-  e.preventDefault();
-  setError('name',''); setError('email',''); setError('message','');
-  if (formStatus) formStatus.textContent = '';
-
-  const data = new FormData(form);
-  const name = (data.get('name')||'').toString().trim();
-  const email = (data.get('email')||'').toString().trim();
-  const message = (data.get('message')||'').toString().trim();
-
-  let ok = true;
-  if (!name) { setError('name','Please enter your name'); ok=false; }
-  if (!email || !validateEmail(email)) { setError('email','Please enter a valid email'); ok=false; }
-  if (!message || message.length<10) { setError('message','Message must be at least 10 characters'); ok=false; }
-
-  if (!ok) return;
-
-  if (formStatus) {
-    formStatus.textContent = '✅ Thanks! Your message was captured (demo only).';
-    formStatus.classList.add('fade-in');
-  }
-  form.reset();
-});
-
-/* =========================
-   Smooth scroll for internal links
-   ========================= */
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', e => {
     const id = link.getAttribute('href');

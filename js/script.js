@@ -73,13 +73,13 @@ loadQuote();
    Projects Data + Rendering (filter/search/sort)
    ========================= */
 const projects = [
-  { title:'CLUBZONE Platform', category:'Web', date:'2025-01-10', img:'assets/images/clubzone.png',
+  { title:'CLUBZONE Platform', category:'Web', date:'2025-01-10', img:'assets/club.png',
     summary:'A web platform to manage and join student clubs.',
     details:'Built as part of SWE206. I focused on UI design and improving UX flows.' },
-  { title:'Online Gaming Data Analysis', category:'Data', date:'2024-04-01', img:'assets/images/online-gaming.png',
+  { title:'Online Gaming Data Analysis', category:'Data', date:'2024-04-01', img:'assets/online.png',
     summary:'Collected and analyzed player data with visual insights.',
     details:'Part of COE292. I practiced data handling, visualization, and teamwork.' },
-  { title:'Saudi Electricity Investment Presentation', category:'Presentation', date:'2024-05-16', img:'assets/images/saudi-electricity.png',
+  { title:'Saudi Electricity Investment Presentation', category:'Presentation', date:'2024-05-16', img:'assets/elec.png',
     summary:'English 102 presentation on investment benefits.',
     details:'Improved my research, academic writing, and presentation skills.' },
 ];
